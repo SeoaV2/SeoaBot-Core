@@ -1,0 +1,8 @@
+[submodule "locale"]
+	path = locale
+	url = https://github.com/SeoaV2/SeoaBot-Locale.git
+	branch = master
+[submodule "commands"]
+	path = commands
+	url = https://github.com/SeoaV2/SeoaBot-Commands.git
+	branch = master
