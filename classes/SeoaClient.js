@@ -1,10 +1,16 @@
 const { Client } = require('discord.js')
+const { existsSync } = require('fs')
+const path = require('path').resolve()
 
 class SeoaClient extends Client {
-  constructor (token) {
+  constructor () {
     super()
-    this.token = token
-    this.prefix = process.env.SeoaPrefix || 'b>'
+
+    let settings
+    if(existsSync(path + '/settings.json')) settings = require(path + '/settings.json')
+    this.token = process.env.token || settings.token
+    this.prefix = process.env.SeoaPrefix || settings.prefix || 'b>'
+    this.owner = settings.owner || []
   }
 
   start () {

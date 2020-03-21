@@ -1,3 +1,10 @@
+# Settings
+settings.json
+
+# Vim swap file
+*.swp
+
+# COMMON IGNORE RULES #
 # Logs
 logs
 *.log

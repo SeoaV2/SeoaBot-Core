@@ -6,7 +6,7 @@ const SeoaClient = require('./classes/SeoaClient')
 const onReadyEvent = require('./events/onready')
 const onMessageEvent = require('./events/onmessage')
 
-const seoa = new SeoaClient(process.env.SeoaToken)
+const seoa = new SeoaClient()
 const commands = new Commands(path + '/commands/')
 
 seoa.start()
