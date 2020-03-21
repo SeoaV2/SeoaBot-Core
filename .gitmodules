@@ -6,3 +6,7 @@
 	path = commands
 	url = https://github.com/SeoaV2/SeoaBot-Commands.git
 	branch = master
+[submodule "extensions/SeoaMusic"]
+	path = extensions/SeoaMusic
+	url = https://github.com/SeoaV2/SeoaBot-Music.git
+	branch = master
