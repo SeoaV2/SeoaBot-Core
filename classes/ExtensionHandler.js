@@ -1,7 +1,7 @@
 const { existsSync, readdir, lstatSync } = require('fs')
 
 class Extensions {
-  constructor (path) {
+  constructor (seoa, path) {
     this._extensions = {}
     if (!existsSync(path)) return this
 
@@ -9,10 +9,11 @@ class Extensions {
       if (err) console.log(err)
       else {
         if (!lstatSync(path + exFolder).isDirectory) return
-        exFolder.forEach((ex) => {
-          if (!existsSync(path + ex + '/index.js')) return
-          console.log('Extension Loaded: ' + ex)
-          this._extensions[ex] = require(path + ex + '/index.js')
+        exFolder.forEach((Ex) => {
+          if (!existsSync(path + Ex + '/index.js')) return
+          console.log('Extension Loaded: ' + Ex)
+          Ex = require(path + Ex + '/index.js')
+          this._extensions[Ex] = new Ex(seoa)
         })
       }
     })

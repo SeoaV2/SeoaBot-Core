@@ -8,11 +8,13 @@ const onReadyEvent = require('./events/onready')
 const onMessageEvent = require('./events/onmessage')
 
 const seoa = new SeoaClient()
-const commands = new CommandHandler(path + '/commands/')
-const extensions = new ExtensionHandler(path + '/extensions/')
-
 seoa.start()
+
+const extensions = new ExtensionHandler(seoa, path + '/extensions/')
 seoa.registExtensions(extensions)
+
+const commands = new CommandHandler(path + '/commands/')
 seoa.registCommands(commands)
+
 seoa.registEvent('ready', onReadyEvent)
 seoa.registEvent('message', onMessageEvent)
