@@ -1,5 +1,6 @@
 function onReady (seoa) {
-  seoa.user.setActivity('Test')
+  console.log('Logged in as ' + seoa.user.tag)
+  seoa.user.setActivity(`Test / ${seoa.prefix}help`)
 }
 
 module.exports = onReady
