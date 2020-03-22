@@ -15,6 +15,7 @@ class CommandHandler {
           CommandFile = require(path + CommandFile)
           const c = new CommandFile()
           this._commands.set(c.name, c)
+          console.log('Command Loaded: ' + c.name)
           if (c.aliases.length > 0) c.aliases.forEach((alias) => { this._commands.set(alias, c) })
         })
       }

@@ -7,10 +7,11 @@ class SeoaClient extends Client {
     super()
 
     let settings
-    if(existsSync(path + '/settings.json')) settings = require(path + '/settings.json')
-    this.token = process.env.token || settings.token
-    this.prefix = process.env.SeoaPrefix || settings.prefix || 'b>'
-    this.owner = settings.owner || []
+    if (existsSync(path + '/settings.json')) settings = require(path + '/settings.json')
+    else settings = { prefix: 'b>', owner: [] }
+    this.token = process.env.SeoaToken || settings.token
+    this.prefix = process.env.SeoaPrefix || settings.prefix
+    this.owner = process.env.SeoaOwner || settings.owner
   }
 
   start () {
@@ -26,6 +27,10 @@ class SeoaClient extends Client {
 
   registCommands (commands) {
     this.commands = commands
+  }
+
+  registExtensions (extensions) {
+    this.extensions = extensions
   }
 
   registEvent (type, fnc) {
