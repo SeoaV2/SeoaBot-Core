@@ -1,5 +1,5 @@
 class Command {
-  constructor() {
+  constructor () {
     this.name = ''
     this.description = ''
     this.aliases = []
@@ -8,7 +8,7 @@ class Command {
     this.ownerOnly = false
   }
 
-  run(seoa, msg, args) {
+  run () {
     throw new Error('run() function not provided')
   }
 }

@@ -26,9 +26,9 @@ class SeoaClient extends Client {
     }, 3000)
   }
 
-  initLocale() {
+  initLocale () {
     i18n.configure({
-      directory: './locale',
+      directory: path + '/locale',
       defaultLocale: 'en_US',
       autoReload: true,
       updateFiles: true,
