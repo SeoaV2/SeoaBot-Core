@@ -10,6 +10,8 @@ const onMessageEvent = require('./events/onmessage')
 const seoa = new SeoaClient()
 seoa.start()
 
+seoa.initLocale()
+
 const extensions = new ExtensionHandler(seoa, path + '/extensions/')
 seoa.registExtensions(extensions)
 

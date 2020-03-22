@@ -1,6 +1,7 @@
 const { Client } = require('discord.js')
 const { existsSync } = require('fs')
 const path = require('path').resolve()
+const i18n = require('i18n')
 
 class SeoaClient extends Client {
   constructor () {
@@ -23,6 +24,19 @@ class SeoaClient extends Client {
     setTimeout(() => {
       this.start()
     }, 3000)
+  }
+
+  initLocale() {
+    i18n.configure({
+      directory: './locale',
+      defaultLocale: 'en_US',
+      autoReload: true,
+      updateFiles: true,
+      syncFiles: true,
+      objectNotation: true
+    })
+
+    this.locale = i18n
   }
 
   registCommands (commands) {
