@@ -2,8 +2,8 @@ const path = require('path').resolve()
 const { hostname } = require('os')
 const { WebhookClient } = require('discord.js')
 
-const djsPath = '/node_modules/discord.js/src/'
-const wsPath = '/node_modules/ws/lib/'
+const djsPath = 'seoa://node_modules/discord.js/src'
+const wsPath = 'seoa://node_modules/ws/lib'
 
 class ErrorHandler extends Error {
   constructor (seoa, msg) {
