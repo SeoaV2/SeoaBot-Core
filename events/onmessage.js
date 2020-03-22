@@ -2,6 +2,7 @@ const Querys = require('../classes/Querys')
 
 function onMessage (seoa, msg) {
   if (msg.author.bot || !msg.content) return
+  if (!msg.content.startsWith(seoa.prefix)) return
 
   const query = new Querys(seoa, msg)
   const target = seoa.commands.get(query.cmd)
