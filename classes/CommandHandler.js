@@ -33,7 +33,15 @@ class CommandHandler {
     try {
       command.run(seoa, msg, args)
     } catch (err) {
-      msg.reply(`An error occured while running the command.\nPlease report this error message to the support server.\n(Use \`${seoa.prefix}invite\` to get the server link)\n\nError message: \`${err.message}\``)
+      const error = new seoa.Error(seoa, err.message)
+      error.report()
+
+      msg.reply(
+        'An error occured while running the command.\n' +
+        'Please report this error message to the support server.\n' +
+        '(Use `' + seoa.prefix + 'invite` to get the server link)\n' +
+        '\nError message: `' + error.message + '`'
+      )
     }
   }
 }

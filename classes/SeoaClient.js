@@ -4,7 +4,7 @@ const path = require('path').resolve()
 const i18n = require('i18n')
 
 class SeoaClient extends Client {
-  constructor () {
+  constructor (ErrorHanlder) {
     super()
 
     let settings
@@ -13,6 +13,8 @@ class SeoaClient extends Client {
     this.token = process.env.SeoaToken || settings.token
     this.prefix = process.env.SeoaPrefix || settings.prefix
     this.owner = process.env.SeoaOwner || settings.owner
+    this.webhookToken = process.env.SeoaWebhook || settings.webhook
+    this.Error = ErrorHanlder
   }
 
   start () {

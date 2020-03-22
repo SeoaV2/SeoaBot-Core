@@ -1,13 +1,14 @@
 const path = require('path').resolve()
 
 const SeoaClient = require('./classes/SeoaClient')
+const ErrorHandler = require('./classes/ErrorHandler')
 const CommandHandler = require('./classes/CommandHandler')
 const ExtensionHandler = require('./classes/ExtensionHandler')
 
 const onReadyEvent = require('./events/onready')
 const onMessageEvent = require('./events/onmessage')
 
-const seoa = new SeoaClient()
+const seoa = new SeoaClient(ErrorHandler)
 seoa.start()
 
 seoa.initLocale()
