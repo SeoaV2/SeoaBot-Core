@@ -13,13 +13,19 @@ class CommandHandler {
 
           // CommandFile = CommandFile.replace('.js', '')
           CommandFile = require(path + CommandFile)
-          const c = new CommandFile()
-          this._commands.set(c.name, c)
+          const c = this.register(CommandFile)
           console.log('Command Loaded: ' + c.name)
-          if (c.aliases.length > 0) c.aliases.forEach((alias) => { this._commands.set(alias, c) })
         })
       }
     })
+  }
+
+  register(CommandFile) {
+    const c = new CommandFile()
+    this._commands.set(c.name, c)
+    if (c.aliases.length > 0) c.aliases.forEach((alias) => { this._commands.set(alias, c) })
+
+    return c
   }
 
   get (name) {
@@ -28,6 +34,7 @@ class CommandHandler {
 
   run (command, seoa, msg, args) {
     // Perms Check Logic here
+    if(command.ownerOnly && !seoa.owner.has(msg.author.id)) return msg.reply('Only the owners of this bot can run this command.')
 
     // Run
     try {
