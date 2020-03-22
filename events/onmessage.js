@@ -5,7 +5,7 @@ function onMessage (seoa, msg) {
 
   const query = new Querys(seoa, msg)
   const target = seoa.commands.get(query.cmd)
-  if (target) target(seoa, msg, query)
+  if (target) seoa.commands.run(target, seoa, msg, query)
 }
 
 module.exports = onMessage
