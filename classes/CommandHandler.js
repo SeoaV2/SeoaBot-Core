@@ -4,6 +4,8 @@ class CommandHandler {
   constructor (seoa, path) {
     this.client = seoa
     seoa._path = path
+
+    this._aliases = new Map()
     this._commands = new Map()
     if (!existsSync(path)) return
 
@@ -25,34 +27,29 @@ class CommandHandler {
   register (CommandFile) {
     const c = new CommandFile()
     this._commands.set(c.name, c)
-    if (c.aliases.length > 0) c.aliases.forEach((alias) => { this._commands.set(alias, c) })
+    this._aliases.set(c.name, c.name)
+    if (c.aliases.length > 0) c.aliases.forEach((alias) => { this._aliases.set(alias, c.name) })
 
     return c
   }
 
-  reregister (NewCmd, oldCmd) {
-    // remove all aliases
-    oldCmd.aliases.forEach((alias) => { if (this._commands.has(alias)) this._commands.delete(alias) })
-    // remove command name itself
-    this._commands.delete(oldCmd.name)
-
-    // register again
-    const c = new NewCmd()
-    this._commands.set(c.name, c)
-    if (c.aliases.length > 0) c.aliases.forEach((alias) => { this._commands.set(alias, c) })
+  reregister (newCmd, oldCmd) {
+    this.unregister(oldCmd)
+    this.register(newCmd)
   }
 
   unregister (cmd) {
     // remove all aliases
-    // eslint-disable-next-line no-undef
-    oldCmd.aliases.forEach((alias) => { if (this._commands.has(alias)) this._commands.delete(alias) })
+    cmd.aliases.forEach((alias) => { if (this._aliases.has(alias)) this._aliases.delete(alias) })
+    this._commands.delete(cmd.name)
+    
     // remove command name itself
-    // eslint-disable-next-line no-undef
-    this._commands.delete(oldCmd.name)
+    this._commands.delete(cmd.name)
   }
 
   get (name) {
-    return this._commands.get(name)
+    const cmd = this._aliases.get(name)
+    return this._commands.get(cmd)
   }
 
   run (command, seoa, msg, args) {
