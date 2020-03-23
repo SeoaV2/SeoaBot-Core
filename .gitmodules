@@ -14,3 +14,7 @@
 	path = extensions/CodeQuiz
 	url = https://github.com/SeoaV2/SeoaBot-CodeQuiz.git
 	branch = master
+[submodule "extensions/Cycles"]
+	path = extensions/Cycles
+	url = https://github.com/SeoaV2/SeoaBot-Cycles.git
+	branch = master
