@@ -8,6 +8,7 @@ const wsPath = 'seoa://node_modules/ws/lib'
 class ErrorHandler extends Error {
   constructor (seoa, msg) {
     super(msg)
+    console.error(this.stack)
     this.stack = '```' + this.stack.split(path).join('seoa:/').split(djsPath).join('djs:/').split(wsPath).join('ws:/') + '```'
     this.title = 'Seoa v2 Beta Error Report: from ' + hostname
 
