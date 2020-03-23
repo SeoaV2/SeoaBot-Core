@@ -21,7 +21,7 @@ class CommandHandler {
                 if (!commandFile.endsWith('.js')) return
 
                 commandFile = require(path + nameSpace + '/' + commandFile)
-                const c = this.register(commandFile)
+                const c = this.register(commandFile, nameSpace)
                 console.log('Command Loaded: ' + c.name)
               })
             }
@@ -31,19 +31,21 @@ class CommandHandler {
     })
   }
 
-  register (CommandFile) {
+  register (CommandFile, group) {
     const c = new CommandFile()
 
     // Conflict check
     if (this._commands.has(c.name)) {
-      throw new Error('A Command ' + c.name + ' already exists.')
+      throw new Error('A Command "' + c.name + '" already exists.')
     }
 
     for (const alias of this._aliases) {
       if (c.aliases.includes(alias)) {
-        throw new Error('A Command with the alias ' + alias + ' already exists.')
+        throw new Error('A Command with the alias "' + alias + '" already exists.')
       }
     }
+
+    c._group = group
 
     this._commands.set(c.name, c)
     this._aliases.set(c.name, c.name)
@@ -54,7 +56,7 @@ class CommandHandler {
 
   reregister (newCmd, oldCmd) {
     this.unregister(oldCmd)
-    this.register(newCmd)
+    this.register(newCmd, oldCmd._group)
   }
 
   unregister (cmd) {

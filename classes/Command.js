@@ -15,7 +15,7 @@ class Command {
   }
 
   reload (seoa) {
-    const cmdPath = path.join(seoa._path, this.name + '.js')
+    const cmdPath = path.join(seoa._path, this._group, this.name + '.js')
     // const oldCmd = require.cache[cmdPath]
     delete require.cache[cmdPath]
     const newCmd = require(cmdPath)
@@ -24,7 +24,7 @@ class Command {
   }
 
   unload (seoa) {
-    const cmdPath = path.join(seoa._path, this.name + '.js')
+    const cmdPath = path.join(seoa._path, this._group, this.name + '.js')
     delete require.cache[cmdPath]
     seoa.commands.unregister(this)
   }
