@@ -8,8 +8,8 @@ class Extensions {
     readdir(path, (err, exFolder) => {
       if (err) console.log(err)
       else {
-        if (!lstatSync(path + exFolder).isDirectory) return
         exFolder.forEach((Ex) => {
+        if (!lstatSync(path + Ex).isDirectory()) return
           if (!existsSync(path + Ex + '/index.js')) return
           console.log('Extension Loaded: ' + Ex)
           Ex = require(path + Ex + '/index.js')
