@@ -1,4 +1,4 @@
-const { existsSync, readdir } = require('fs')
+const { existsSync, readdir, lstatSync } = require('fs')
 
 class CommandHandler {
   constructor (seoa, path) {
@@ -9,16 +9,23 @@ class CommandHandler {
     this._commands = new Map()
     if (!existsSync(path)) return
 
-    readdir(path, (err, commandFiles) => {
+    readdir(path, (err, nameSpaces) => {
       if (err) console.log(err)
       else {
-        commandFiles.forEach((CommandFile) => {
-          if (!CommandFile.endsWith('.js')) return
+        nameSpaces.forEach((nameSpace) => {
+          if (!lstatSync(path + nameSpace).isDirectory()) return
+          readdir(path + nameSpace, (err, commandFiles) => {
+            if (err) console.log(err)
+            else {
+              commandFiles.forEach((commandFile) => {
+                if (!commandFile.endsWith('.js')) return
 
-          // CommandFile = CommandFile.replace('.js', '')
-          CommandFile = require(path + CommandFile)
-          const c = this.register(CommandFile)
-          console.log('Command Loaded: ' + c.name)
+                commandFile = require(path + nameSpace + '/' + commandFile)
+                const c = this.register(commandFile)
+                console.log('Command Loaded: ' + c.name)
+              })
+            }
+          })
         })
       }
     })
@@ -31,6 +38,7 @@ class CommandHandler {
     if (this._commands.has(c.name)) {
       throw new Error('A Command ' + c.name + ' already exists.')
     }
+
     for (const alias of this._aliases) {
       if (c.aliases.includes(alias)) {
         throw new Error('A Command with the alias ' + alias + ' already exists.')
