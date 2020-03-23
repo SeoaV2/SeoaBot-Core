@@ -16,7 +16,7 @@ seoa.initLocale()
 const extensions = new ExtensionHandler(seoa, path + '/extensions/')
 seoa.registExtensions(extensions)
 
-const commands = new CommandHandler(path + '/commands/')
+const commands = new CommandHandler(seoa, path + '/commands/')
 seoa.registCommands(commands)
 
 seoa.registEvent('ready', onReadyEvent)

@@ -1,7 +1,9 @@
 const { existsSync, readdir } = require('fs')
 
 class CommandHandler {
-  constructor (path) {
+  constructor (seoa, path) {
+    this.client = seoa
+    seoa._path = path
     this._commands = new Map()
     if (!existsSync(path)) return
 
@@ -20,12 +22,33 @@ class CommandHandler {
     })
   }
 
-  register(CommandFile) {
+  register (CommandFile) {
     const c = new CommandFile()
     this._commands.set(c.name, c)
     if (c.aliases.length > 0) c.aliases.forEach((alias) => { this._commands.set(alias, c) })
 
     return c
+  }
+
+  reregister (NewCmd, oldCmd) {
+    // remove all aliases
+    oldCmd.aliases.forEach((alias) => { if (this._commands.has(alias)) this._commands.delete(alias) })
+    // remove command name itself
+    this._commands.delete(oldCmd.name)
+
+    // register again
+    const c = new NewCmd()
+    this._commands.set(c.name, c)
+    if (c.aliases.length > 0) c.aliases.forEach((alias) => { this._commands.set(alias, c) })
+  }
+
+  unregister (cmd) {
+    // remove all aliases
+    // eslint-disable-next-line no-undef
+    oldCmd.aliases.forEach((alias) => { if (this._commands.has(alias)) this._commands.delete(alias) })
+    // remove command name itself
+    // eslint-disable-next-line no-undef
+    this._commands.delete(oldCmd.name)
   }
 
   get (name) {
@@ -34,7 +57,7 @@ class CommandHandler {
 
   run (command, seoa, msg, args) {
     // Perms Check Logic here
-    if(command.ownerOnly && !seoa.owner.has(msg.author.id)) return msg.reply('Only the owners of this bot can run this command.')
+    if (command.ownerOnly && !seoa.owner.includes(msg.author.id)) return msg.reply('Only the owners of this bot can run this command.')
 
     // Run
     try {
