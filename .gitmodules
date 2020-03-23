@@ -10,3 +10,7 @@
 	path = extensions/SeoaMusic
 	url = https://github.com/SeoaV2/SeoaBot-Music.git
 	branch = master
+[submodule "extensions/CodeQuiz"]
+	path = extensions/CodeQuiz
+	url = https://github.com/SeoaV2/SeoaBot-CodeQuiz.git
+	branch = master
