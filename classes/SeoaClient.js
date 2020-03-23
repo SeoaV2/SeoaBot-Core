@@ -15,6 +15,8 @@ class SeoaClient extends Client {
     this.owner = process.env.SeoaOwner || settings.owner
     this.webhookToken = process.env.SeoaWebhook || settings.webhook
     this.Error = ErrorHanlder
+
+    this.readyAt = new Date()
   }
 
   start () {
