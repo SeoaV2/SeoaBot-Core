@@ -22,6 +22,12 @@ class Command {
 
     seoa.commands.reregister(newCmd, this)
   }
+
+  unload (seoa) {
+    const cmdPath = path.join(seoa._path, this.name + '.js')
+    delete require.cache[cmdPath]
+    seoa.commands.unregister(this)
+  }
 }
 
 module.exports = Command

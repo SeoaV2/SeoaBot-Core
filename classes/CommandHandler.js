@@ -26,6 +26,17 @@ class CommandHandler {
 
   register (CommandFile) {
     const c = new CommandFile()
+
+    // Conflict check
+    if (this._commands.has(c.name)) {
+      throw new Error('A Command ' + c.name + ' already exists.')
+    }
+    for (const alias of this._aliases) {
+      if (c.aliases.includes(alias)) {
+        throw new Error('A Command with the alias ' + alias + ' already exists.')
+      }
+    }
+
     this._commands.set(c.name, c)
     this._aliases.set(c.name, c.name)
     if (c.aliases.length > 0) c.aliases.forEach((alias) => { this._aliases.set(alias, c.name) })
@@ -42,7 +53,7 @@ class CommandHandler {
     // remove all aliases
     cmd.aliases.forEach((alias) => { if (this._aliases.has(alias)) this._aliases.delete(alias) })
     this._commands.delete(cmd.name)
-    
+
     // remove command name itself
     this._commands.delete(cmd.name)
   }
