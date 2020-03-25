@@ -1,7 +1,6 @@
 const { Client } = require('discord.js')
 const { existsSync } = require('fs')
 const path = require('path').resolve()
-const i18n = require('i18n')
 
 class SeoaClient extends Client {
   constructor (ErrorHanlder) {
@@ -15,6 +14,8 @@ class SeoaClient extends Client {
     this.owner = process.env.SeoaOwner || settings.owner
     this.webhookToken = process.env.SeoaWebhook || settings.webhook
     this.Error = ErrorHanlder
+
+    this.DBconnection = settings.DBconnection
 
     this.readyAt = new Date()
   }
@@ -30,19 +31,6 @@ class SeoaClient extends Client {
     }, 3000)
   }
 
-  initLocale () {
-    i18n.configure({
-      directory: path + '/locale',
-      defaultLocale: 'en_US',
-      autoReload: true,
-      updateFiles: true,
-      syncFiles: true,
-      objectNotation: true
-    })
-
-    this.locale = i18n
-  }
-
   registCommands (commands) {
     this.commands = commands
   }
@@ -55,6 +43,15 @@ class SeoaClient extends Client {
     this.on(type, (arg1, arg2, arg3, arg4, arg5, arg6) => {
       fnc(this, arg1, arg2, arg3, arg4, arg5, arg6)
     })
+  }
+
+  setupDatabase () {
+    const knex = require('knex')({
+      client: 'mysql',
+      connection: this.DBconnection
+    })
+
+    this.knex = knex
   }
 }
 
