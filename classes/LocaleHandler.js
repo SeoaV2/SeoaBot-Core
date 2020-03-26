@@ -14,11 +14,14 @@ class LocaleHandler {
 
     this.seoa = seoa
     this.i18n = i18n
-    this.t = async (phrase, guildID, ...args) => {return i18n.__({phrase, locale: await this.getGuildLocale(guildID)}, ...args)}
+    this.t = (phrase, locale, ...args) => {return i18n.__({phrase, locale}, ...args)}
   }
 
   async getGuildLocale (id) {
-    const dbData = await this.seoa.knex('guild').select('locale').where('id', id)
+    let dbData
+    try{
+      dbData = await this.seoa.knex('guild').select('locale').where('id', id)
+    } catch (err) {console.error(err.stack); return 'en_US'}
     if(dbData.length < 1) return 'en_US'
     else return dbData[0].locale
   }

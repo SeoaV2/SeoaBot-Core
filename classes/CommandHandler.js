@@ -73,13 +73,14 @@ class CommandHandler {
     return this._commands.get(cmd)
   }
 
-  run (command, seoa, msg, args) {
+  async run (command, seoa, msg, args) {
     // Perms Check Logic here
     if (command.ownerOnly && !seoa.owner.includes(msg.author.id)) return msg.reply('Only the owners of this bot can run this command.')
 
     // Run
     try {
-      command.run(seoa, msg, args)
+      const locale = await seoa.locale.getGuildLocale(msg.guild.id)
+      command.run(seoa, msg, args, locale)
     } catch (err) {
       const error = new seoa.Error(seoa, err.message)
       error.report()
