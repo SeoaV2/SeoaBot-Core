@@ -1,10 +1,14 @@
 const { existsSync, readdir, lstatSync } = require('fs')
 
 class CommandHandler {
+  /**
+   * Start Command Handling
+   * @param {import('./SeoaClient')} seoa discord.js Client
+   * @param {String} path Path to Seoa's Command Files
+   */
   constructor (seoa, path) {
     this.client = seoa
     seoa._path = path
-
     this._aliases = new Map()
     this._commands = new Map()
     if (!existsSync(path)) return
@@ -20,8 +24,8 @@ class CommandHandler {
               commandFiles.forEach((commandFile) => {
                 if (!commandFile.endsWith('.js')) return
 
-                commandFile = require(path + nameSpace + '/' + commandFile)
-                const c = this.register(commandFile, nameSpace)
+                const command = require(path + nameSpace + '/' + commandFile)
+                const c = this.register(command, nameSpace)
                 console.log('Command Loaded: ' + c.name)
               })
             }
@@ -31,6 +35,12 @@ class CommandHandler {
     })
   }
 
+  /**
+   * Regist Command File
+   * @param {typeof import('./Command')} CommandFile Loaded Command File
+   * @param {String} group Commad Group
+   * @returns {import('./Command')} Modified Command File
+   */
   register (CommandFile, group) {
     const c = new CommandFile()
 
@@ -54,11 +64,20 @@ class CommandHandler {
     return c
   }
 
+  /**
+   * Replace oldCmd to newCmd
+   * @param {typeof import('./Command')} newCmd Not Loaded Command File
+   * @param {import('./Command')} oldCmd Aleady Loaded Command File
+   */
   reregister (newCmd, oldCmd) {
     this.unregister(oldCmd)
     this.register(newCmd, oldCmd._group)
   }
 
+  /**
+   * Unregist Command File
+   * @param {import('./Command')} cmd Loaded Command File
+   */
   unregister (cmd) {
     // remove all aliases
     cmd.aliases.forEach((alias) => { if (this._aliases.has(alias)) this._aliases.delete(alias) })
@@ -68,19 +87,30 @@ class CommandHandler {
     this._commands.delete(cmd.name)
   }
 
+  /**
+   * Search Command File with name
+   * @param {String} name search name
+   */
   get (name) {
     const cmd = this._aliases.get(name)
     return this._commands.get(cmd)
   }
 
-  async run (command, seoa, msg, args) {
+  /**
+   * Run Specific Command
+   * @param {import('./Command')} command Command Module File to run
+   * @param {import('./SeoaClient')} seoa discord.js Client
+   * @param {import('discord.js').Message} msg discord.js Message
+   * @param {import('./Querys')} query Message Arguments
+   */
+  async run (command, seoa, msg, query) {
     // Perms Check Logic here
     if (command.ownerOnly && !seoa.owner.includes(msg.author.id)) return msg.reply('Only the owners of this bot can run this command.')
 
     // Run
     try {
       const locale = await seoa.locale.getGuildLocale(msg.guild.id)
-      command.run(seoa, msg, args, locale)
+      command.run(seoa, msg, query, locale)
     } catch (err) {
       const error = new seoa.Error(seoa, err.message)
       error.report()

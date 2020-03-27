@@ -6,6 +6,11 @@ const djsPath = 'seoa://node_modules/discord.js/src'
 const wsPath = 'seoa://node_modules/ws/lib'
 
 class ErrorHandler extends Error {
+  /**
+   * Create new Seoa's Error
+   * @param {import('./SeoaClient')} seoa discord.js Client
+   * @param {String} msg Custom Error Message
+   */
   constructor (seoa, msg) {
     super(msg)
     console.error(this.stack)
@@ -16,6 +21,9 @@ class ErrorHandler extends Error {
     this.webhook = new WebhookClient('691241324111724574', seoa.webhookToken)
   }
 
+  /**
+   * Report Error to Webhook
+   */
   report () {
     if (!this.webhook) return
     this.webhook.send(this.stack, { username: this.title })

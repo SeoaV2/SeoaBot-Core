@@ -4,6 +4,10 @@ const path = require('path').resolve()
 const knex = require('knex')
 
 class SeoaClient extends Client {
+  /**
+   * Create Seoa client with error handler
+   * @param {typeof import('./ErrorHandler')} ErrorHanlder Seoa ErrorHandler
+   */
   constructor (ErrorHanlder) {
     super()
 
@@ -19,12 +23,20 @@ class SeoaClient extends Client {
     this.DBconnection = settings.DBconnection
 
     this.readyAt = new Date()
+
+    this._path = ''
   }
 
+  /**
+   * Start Seoa client
+   */
   start () {
     this.login(this.token)
   }
 
+  /**
+   * Restart Seoa client
+   */
   restart () {
     this.destroy()
     setTimeout(() => {
@@ -32,24 +44,44 @@ class SeoaClient extends Client {
     }, 3000)
   }
 
+  /**
+   * Regist Locale handler
+   * @param {import('./LocaleHandler')} locale Seoa LocaleHandler
+   */
   registLocale (locale) {
     this.locale = locale
   }
 
+  /**
+   * Regist Command handler
+   * @param {import('./CommandHandler')} commands Seoa CommandHandler
+   */
   registCommands (commands) {
     this.commands = commands
   }
 
+  /**
+   * Regist Extension handler
+   * @param {import('./ExtensionHandler')} extensions Seoa ExtensionHandler
+   */
   registExtensions (extensions) {
     this.extensions = extensions
   }
 
+  /**
+   * Regist Events
+   * @param {String} type Event name
+   * @param {Function} fnc When event occured this function will be call
+   */
   registEvent (type, fnc) {
     this.on(type, (arg1, arg2, arg3, arg4, arg5, arg6) => {
       fnc(this, arg1, arg2, arg3, arg4, arg5, arg6)
     })
   }
 
+  /**
+   * Setup mysql database with knex
+   */
   setupDatabase () {
     const db = knex({
       client: 'mysql',

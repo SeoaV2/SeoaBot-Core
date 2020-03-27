@@ -1,5 +1,10 @@
 const Querys = require('../classes/Querys')
 
+/**
+ * On every messages
+ * @param {import('../classes/SeoaClient')} seoa Seoa Client
+ * @param {import('discord.js').Message} msg discord.js Message
+ */
 function onMessage (seoa, msg) {
   if (msg.author.bot || !msg.content) return
   if (!msg.content.startsWith(seoa.prefix)) return

@@ -1,6 +1,11 @@
 const { existsSync, readdir, lstatSync } = require('fs')
 
-class Extensions {
+class ExtensionHandler {
+  /**
+   * Start Extension Handling
+   * @param {import('./SeoaClient')} seoa discord.js Client
+   * @param {String} path Path to Seoa's Extensions
+   */
   constructor (seoa, path) {
     this._extensions = {}
     if (!existsSync(path)) return this
@@ -19,9 +24,13 @@ class Extensions {
     })
   }
 
+  /**
+   * Search Command File with name
+   * @param {String} name search name
+   */
   get (name) {
     return this._extensions[name]
   }
 }
 
-module.exports = Extensions
+module.exports = ExtensionHandler

@@ -1,4 +1,9 @@
 class Querys {
+  /**
+   * Querying message content
+   * @param {import('./SeoaClient')} seoa discord.js Client
+   * @param {import('discord.js').Message} msg discord.js Message
+   */
   constructor (seoa, msg) {
     this.content = msg.content.split(seoa.prefix)[1]
     if (!this.content) return
