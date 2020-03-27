@@ -1,6 +1,7 @@
 const { Client } = require('discord.js')
 const { existsSync } = require('fs')
 const path = require('path').resolve()
+const knex = require('knex')
 
 class SeoaClient extends Client {
   constructor (ErrorHanlder) {
@@ -31,6 +32,10 @@ class SeoaClient extends Client {
     }, 3000)
   }
 
+  registLocale (locale) {
+    this.locale = locale
+  }
+
   registCommands (commands) {
     this.commands = commands
   }
@@ -46,12 +51,12 @@ class SeoaClient extends Client {
   }
 
   setupDatabase () {
-    const knex = require('knex')({
+    const db = knex({
       client: 'mysql',
       connection: this.DBconnection
     })
 
-    this.knex = knex
+    this.db = db
   }
 }
 
