@@ -2,5 +2,11 @@
   "token": "",
   "prefix": "",
   "owner": [""],
-  "webhook": ""
+  "webhook": "",
+  "DBconnection": {
+    "host": "",
+    "user": "",
+    "password": "",
+    "database": "seoav2"
+  }
 }
