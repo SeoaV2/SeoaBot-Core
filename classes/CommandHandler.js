@@ -109,7 +109,7 @@ class CommandHandler {
 
     // Run
     try {
-      const locale = await seoa.locale.getGuildLocale(msg.guild.id)
+      const locale = await msg.guild ? seoa.locale.getGuildLocale(msg.guild.id) : 'en_US'
       command.run(seoa, msg, query, locale)
     } catch (err) {
       const error = new seoa.Error(seoa, err.message)
