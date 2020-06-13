@@ -8,7 +8,7 @@ use seoav2;
 
 create table user
 (
-	id int not null,
+	id varchar(20) not null,
 	score int default 0 not null,
 	solved int default 0 null
 );
@@ -24,7 +24,7 @@ alter table user
 
 create table guild
 (
-	id int not null,
+	id varchar(20) not null,
 	locale varchar(10) default 'en_US' not null
 );
 
