@@ -1,12 +1,12 @@
 {
   "token": "",
-  "prefix": "",
-  "owner": [""],
-  "webhook": "",
+  "prefix": ">",
+  "owner": ["527746745073926145"],
+  "webhook": "kqTjNeCX6O6P-7eqQlJM4J_WgqHJ1Me5emCEJhDx1hiIYfWqJh6ddny77A10s50f_z8x",
   "DBconnection": {
-    "host": "",
-    "user": "",
-    "password": "",
+    "host": "localhost",
+    "user": "seoabot",
+    "password": "**seoa1234",
     "database": "seoav2"
   }
 }
