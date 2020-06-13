@@ -10,7 +10,7 @@ create table user
 (
 	id int not null,
 	score int default 0 not null,
-	solve int default 0 null
+	solved int default 0 null
 );
 
 create unique index user_id_uindex
