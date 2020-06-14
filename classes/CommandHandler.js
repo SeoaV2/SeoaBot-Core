@@ -118,7 +118,7 @@ class CommandHandler {
       msg.reply(
         'An error occured while running the command.\n' +
         'Please report this error message to the support server.\n' +
-        '(Use `' + seoa.prefix + 'invite` to get the server link)\n' +
+        '(Use `' + seoa.prefix + 'support` to get the server link)\n' +
         '\nError message: `' + error.message + '`'
       )
     }
