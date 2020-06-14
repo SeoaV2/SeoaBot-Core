@@ -14,3 +14,7 @@
 	path = extensions/Cycles
 	url = https://github.com/SeoaV2/SeoaBot-Cycles.git
 	branch = master
+[submodule "extensions/SocketGame"]
+	path = extensions/SocketGame
+	url = https://github.com/SeoaV2/SeoaBot-SGame.git
+	branch = master
