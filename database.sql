@@ -10,7 +10,10 @@ create table user
 (
 	id varchar(20) not null,
 	score int default 0 not null,
-	solved int default 0 null
+	solved int default 0 null,
+	sg_stage int default 0 not null,
+	sg_x int default 0 not null,
+	sg_y int default 0 not null
 );
 
 create unique index user_id_uindex
